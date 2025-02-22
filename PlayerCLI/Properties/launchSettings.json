@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PlayerCLI": {
+      "commandName": "Project",
+      "workingDirectory": "../x64/Debug"
+    }
+  }
+}
