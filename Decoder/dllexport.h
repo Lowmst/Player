@@ -2,6 +2,6 @@
 #include "decoder.h"
 #define DLL extern "C" __declspec(dllexport)
 
-DLL Decoder* Init(const char* url);
-DLL PCMParameters Setup(Decoder* decoder);
-DLL PCMPacket Decode(Decoder* decoder);
+DLL Decoder* init(const char* url);
+DLL PCMParameters setup(Decoder* decoder);
+DLL PCMPacket decode(Decoder* decoder);

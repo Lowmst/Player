@@ -18,13 +18,31 @@ public struct PCMPacket
 
 public partial class Decoder
 {
+
+    private IntPtr _object;
+    public Decoder(string url)
+    {
+        _object = init(url);
+    }
+
+    public PCMParameters GetPCMParameters()
+    {
+        return setup(_object);
+    }
+
+    public PCMPacket Decode()
+    {
+        return decode(_object);
+    }
+    
+
     [LibraryImport("Decoder.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial IntPtr Init(string url);
+    private static partial IntPtr init(string url);
 
     [LibraryImport("Decoder.dll")]
-    public static partial PCMParameters Setup(IntPtr decoder);
+    private static partial PCMParameters setup(IntPtr decoder);
 
     [LibraryImport("Decoder.dll", StringMarshalling = StringMarshalling.Utf8)]
-    public static partial PCMPacket Decode(IntPtr decoder);
+    private static partial PCMPacket decode(IntPtr decoder);
 
 }

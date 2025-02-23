@@ -14,8 +14,8 @@ public class Program
         }
 
         var filepath = args[0];
-        var decoder = Decoder.Init(filepath);
-        var info = Decoder.Setup(decoder);
+        var decoder =  new Decoder(filepath);
+        var info = decoder.GetPCMParameters();
 
         Console.WriteLine(Path.GetFileName(filepath));
         Console.WriteLine($"{info.sample_rate} Hz");

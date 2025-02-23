@@ -15,27 +15,32 @@ public class Playback
         _wasapi.Init(_provider);
     }
 
-    public void Play(IntPtr decoder)
+    public void Play(Decoder decoder)
     {
         _wasapi.Play();
 
         while (true)
         {
-            var pcm = Decoder.Decode(decoder);
+            var pcm = decoder.Decode();
             if (pcm.size == 0)
             {
                 break;
             }
 
-            if (pcm.size + _provider.BufferedBytes > _provider.BufferLength)
+            while (pcm.size + _provider.BufferedBytes > _provider.BufferLength)
             {
-                Thread.Sleep(2500);
+                Thread.Sleep(1000);
             }
             var bytes = new byte[pcm.size];
             Marshal.Copy(pcm.data, bytes, 0, pcm.size);
             _provider.AddSamples(bytes, 0, pcm.size);
 
         }
-        Thread.Sleep(5000);
+
+        while (_provider.BufferedBytes != 0)
+        {
+            Thread.Sleep(1000);
+        }
+
     }
 }

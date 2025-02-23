@@ -1,15 +1,15 @@
 ﻿#include "dllexport.h"
 #include "decoder.h"
 
-	
-Decoder* Init(const char* url) {
+
+Decoder* init(const char* url) {
 	return new Decoder(url);
 }
 
-PCMParameters Setup(Decoder* decoder) {
+PCMParameters setup(Decoder* decoder) {
 	return decoder->Setup();
 }
 
-PCMPacket Decode(Decoder* decoder) {
+PCMPacket decode(Decoder* decoder) {
 	return decoder->Decode();
 }
