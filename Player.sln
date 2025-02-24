@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerCLI", "PlayerCLI\PlayerCLI.csproj", "{82FFEF54-C8C6-449F-A92A-AB6B5F884F27}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Decoder", "Decoder\Decoder.vcxproj", "{27672AE5-931D-42CD-B5CE-ED287ADB1699}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerUI3", "PlayerUI3\PlayerUI3.csproj", "{00E4943A-527D-49FA-8856-3A1EAA352EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,24 @@ Global
 		{27672AE5-931D-42CD-B5CE-ED287ADB1699}.Release|x64.Build.0 = Release|x64
 		{27672AE5-931D-42CD-B5CE-ED287ADB1699}.Release|x86.ActiveCfg = Release|Win32
 		{27672AE5-931D-42CD-B5CE-ED287ADB1699}.Release|x86.Build.0 = Release|Win32
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|Any CPU.Build.0 = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x64.ActiveCfg = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x64.Build.0 = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x64.Deploy.0 = Debug|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x86.ActiveCfg = Debug|x86
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x86.Build.0 = Debug|x86
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Debug|x86.Deploy.0 = Debug|x86
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|Any CPU.ActiveCfg = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|Any CPU.Build.0 = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|Any CPU.Deploy.0 = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x64.ActiveCfg = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x64.Build.0 = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x64.Deploy.0 = Release|x64
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x86.ActiveCfg = Release|x86
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x86.Build.0 = Release|x86
+		{00E4943A-527D-49FA-8856-3A1EAA352EDB}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

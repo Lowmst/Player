@@ -11,7 +11,15 @@ public class Playback
 
     public Playback(PCMParameters info)
     {
-        _provider = new BufferedWaveProvider(new WaveFormat(info.sample_rate, info.bits_per_sample, 2));
+        if (info.lossless == 0)
+        {
+            _provider = new BufferedWaveProvider(WaveFormat.CreateIeeeFloatWaveFormat(info.sample_rate, 2));
+        }
+        else
+        {
+            _provider = new BufferedWaveProvider(new WaveFormat(info.sample_rate, info.bits_per_sample, 2));
+            
+        }
         _wasapi.Init(_provider);
     }
 
@@ -34,13 +42,11 @@ public class Playback
             var bytes = new byte[pcm.size];
             Marshal.Copy(pcm.data, bytes, 0, pcm.size);
             _provider.AddSamples(bytes, 0, pcm.size);
-
         }
 
         while (_provider.BufferedBytes != 0)
         {
             Thread.Sleep(1000);
         }
-
     }
 }

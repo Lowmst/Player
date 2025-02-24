@@ -15,7 +15,7 @@ public struct WAVHead
     public byte[] fmtID = Encoding.ASCII.GetBytes(['f', 'm', 't', ' ']); // "fmt "
     public uint fmtSize = 16; // 16
                               // "fmt" Data
-    public ushort encodeMode = 1; // 1 for PCM, ...
+    public ushort encodeMode = 3; // 1 for PCM, ...
     public ushort numChannel = 2; // 1 for Mono, 2 for Stereo
     public uint samplingRate; // usually 44100 or higher for lossless
     public uint byteRate; // numChannel * samplingRate * bitDepth / 8

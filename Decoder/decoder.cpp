@@ -3,6 +3,7 @@
 
 Decoder::Decoder(const char* url)
 {
+	av_log_set_level(AV_LOG_QUIET);
 	avformat_open_input(&format_context_, url, nullptr, nullptr);
 	avformat_find_stream_info(format_context_, nullptr);
 
@@ -24,11 +25,53 @@ Decoder::Decoder(const char* url)
 	bits_per_sample_ =
 		codec_parameters_->bits_per_raw_sample ? codec_parameters_->bits_per_raw_sample : codec_parameters_->bits_per_coded_sample;
 	bytes_per_sample_ = std::ceil(static_cast<float>(bits_per_sample_) / 8);
+
+	// decode first frame to access encode info
+	while (av_read_frame(format_context_, packet_) == 0)
+	{
+		if (packet_->stream_index == audio_stream_index_)
+		{
+			avcodec_send_packet(codec_context_, packet_);
+			if (avcodec_receive_frame(codec_context_, frame_) == 0)
+			{
+				if (frame_->format == 3 || frame_->format == 8)
+				{
+					is_lossless_ = false;
+					bits_per_sample_ = 32;
+					bytes_per_sample_ = 4;
+				}
+
+				if (frame_->format == 4 || frame_->format == 9)
+				{
+					is_lossless_ = false;
+					bits_per_sample_ = 64;
+					bytes_per_sample_ = 8;
+				}
+				break;
+			}
+		}
+
+	}
+	av_frame_unref(frame_);
+	av_packet_unref(packet_);
+	avformat_close_input(&format_context_);
+	avcodec_free_context(&codec_context_);
+
+	// open url again
+	avformat_open_input(&format_context_, url, nullptr, nullptr);
+	avformat_find_stream_info(format_context_, nullptr);
+
+	codec_parameters_ = format_context_->streams[audio_stream_index_]->codecpar;
+	codec_ = avcodec_find_decoder(codec_parameters_->codec_id);
+	codec_context_ = avcodec_alloc_context3(codec_);
+
+	avcodec_parameters_to_context(codec_context_, codec_parameters_);
+	avcodec_open2(codec_context_, codec_, nullptr);
 }
 
 PCMParameters Decoder::Setup() const
 {
-	return PCMParameters{ codec_parameters_->sample_rate, bits_per_sample_ };
+	return PCMParameters{ codec_parameters_->sample_rate, bits_per_sample_, is_lossless_ };
 }
 
 PCMPacket Decoder::Decode()

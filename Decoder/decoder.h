@@ -4,6 +4,7 @@
 using PCMParameters = struct {
 	int sample_rate;
 	int bits_per_sample;
+	int is_lossless;
 };
 
 using PCMPacket = struct {
@@ -33,4 +34,7 @@ private:
 	int bytes_per_sample_;
 
 	void Muxer(size_t size);
+
+	int is_lossless_ = true;
+	bool flushing_ = false;
 };

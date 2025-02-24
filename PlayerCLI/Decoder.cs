@@ -7,6 +7,7 @@ public struct PCMParameters
 {
     public int sample_rate;
     public int bits_per_sample;
+    public int lossless;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -19,7 +20,7 @@ public struct PCMPacket
 public partial class Decoder
 {
 
-    private IntPtr _object;
+    private readonly IntPtr _object;
     public Decoder(string url)
     {
         _object = init(url);

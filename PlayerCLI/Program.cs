@@ -1,7 +1,10 @@
-﻿namespace PlayerCLI;
+﻿using NAudio.Wave;
+
+namespace PlayerCLI;
 
 public class Program
 {
+    //[STAThread]
     public static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.Unicode;
@@ -18,12 +21,23 @@ public class Program
         var info = decoder.GetPCMParameters();
 
         Console.WriteLine(Path.GetFileName(filepath));
-        Console.WriteLine($"{info.sample_rate} Hz");
-        Console.WriteLine($"{info.bits_per_sample} Bit");
+        Console.WriteLine($"Sampling Rate: {info.sample_rate} Hz");
+        
+        if (info.lossless == 0)
+        {
+            Console.WriteLine($"Sampling Bit Depth: {info.bits_per_sample} Bit (Float)");
+            Console.WriteLine($"Lossy Audio");
+        }
+        else
+        {
+            Console.WriteLine($"Sampling Bit Depth: {info.bits_per_sample} Bit");
+            Console.WriteLine($"Lossless Audio");
+        }
 
         var player = new Playback(info);
         player.Play(decoder);
 
+        /* WAV file output example */
 
         //var filename = Path.GetFileNameWithoutExtension(filepath) + ".wav";
 
