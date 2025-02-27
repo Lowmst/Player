@@ -9,7 +9,11 @@
     mc:Ignorable="d"
     Title="PlayerUI3">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+        <Button x:Name="FileSelectorButton" Click="FileSelectorButton_OnClick">Select File</Button>
+        <Button x:Name="PlayButton" Click="PlayButton_OnClick">Play</Button>
+        <Button x:Name="PauseButton" Click="PauseButton_OnClick">Pause</Button>
+        <Button x:Name="StopButton" Click="StopButton_OnClick"></Button>
     </StackPanel>
 </Window>
