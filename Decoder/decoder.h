@@ -1,5 +1,7 @@
 ﻿#pragma once
+
 #include "ffmpeg.h"
+#include <Audioclient.h>
 
 using PCMParameters = struct {
 	int sample_rate;
@@ -15,7 +17,7 @@ using PCMPacket = struct {
 class Decoder {
 public:
 	explicit Decoder(const char* url);
-	[[nodiscard]] PCMParameters Setup() const;
+	WAVEFORMATEX* Setup() const;
 	PCMPacket Decode();
 
 private:
@@ -30,11 +32,12 @@ private:
 	int audio_stream_index_ = 0;
 	char* buffer_ = nullptr;
 
-	int bits_per_sample_;
+	int sample_rate_;
+	int valid_bits_per_sample_;
 	int bytes_per_sample_;
 
 	void Muxer(size_t size);
 
-	int is_lossless_ = true;
+	int is_ieee_float_ = false;
 	bool flushing_ = false;
 };

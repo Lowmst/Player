@@ -2,6 +2,7 @@
   "profiles": {
     "PlayerCLI": {
       "commandName": "Project",
+      "commandLineArgs": "\"D:\\Music\\Bilibili\\上山岗-洛.mp3\"",
       "workingDirectory": "../x64/Debug"
     }
   }

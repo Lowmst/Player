@@ -2,13 +2,13 @@
 
 namespace PlayerCLI;
 
-[StructLayout(LayoutKind.Sequential, Pack = 4)]
-public struct PCMParameters
-{
-    public int sample_rate;
-    public int bits_per_sample;
-    public int lossless;
-}
+//[StructLayout(LayoutKind.Sequential, Pack = 4)]
+//public struct PCMParameters
+//{
+//    public int sample_rate;
+//    public int bits_per_sample;
+//    public int lossless;
+//}
 
 [StructLayout(LayoutKind.Sequential, Pack = 8)]
 public struct PCMPacket
@@ -26,7 +26,7 @@ public partial class Decoder
         _object = init(url);
     }
 
-    public PCMParameters GetPCMParameters()
+    public IntPtr GetPCMParameters()
     {
         return setup(_object);
     }
@@ -41,7 +41,7 @@ public partial class Decoder
     private static partial IntPtr init(string url);
 
     [LibraryImport("Decoder.dll")]
-    private static partial PCMParameters setup(IntPtr decoder);
+    private static partial IntPtr setup(IntPtr decoder);
 
     [LibraryImport("Decoder.dll", StringMarshalling = StringMarshalling.Utf8)]
     private static partial PCMPacket decode(IntPtr decoder);

@@ -15,13 +15,13 @@ public class FileSelector
         WinRT.Interop.InitializeWithWindow.Initialize(_openPicker, hWnd);
     }
 
-    public async Task<string?> GetFilePathAsync(string[] filters)
+    public string? GetFilePathAsync(string[] filters)
     {
         foreach (var filter in filters)
         {
             _openPicker.FileTypeFilter.Add(filter);
         }
-        var file = await _openPicker.PickSingleFileAsync();
+        var file = _openPicker.PickSingleFileAsync().AsTask().Result;
 
         return file?.Path;
     }

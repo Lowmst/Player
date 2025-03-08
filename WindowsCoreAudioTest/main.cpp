@@ -1,6 +1,31 @@
 import std;
 #include "coreaudio.h"
 
+WAVEFORMATEX* format(const unsigned long nb_samples, const unsigned short valid_bits_per_sample)
+{
+	const unsigned short bytes_per_sample = std::ceil(static_cast<float>(valid_bits_per_sample) / 8);
+	const unsigned short bits_per_sample = bytes_per_sample * 8;
+	const unsigned short block_align = 2 * bits_per_sample / 8;
+	return reinterpret_cast<WAVEFORMATEX*>(
+		new WAVEFORMATEXTENSIBLE
+		{
+			WAVEFORMATEX
+			{
+				WAVE_FORMAT_EXTENSIBLE,
+				2,
+				nb_samples,
+				nb_samples * block_align,
+				block_align,
+				bits_per_sample,
+				22
+			},
+			valid_bits_per_sample,
+			SPEAKER_FRONT_LEFT | SPEAKER_FRONT_RIGHT,
+			KSDATAFORMAT_SUBTYPE_PCM
+		});
+}
+
+
 int main()
 {
 	std::wcout.imbue(std::locale("zh_CN"));
@@ -47,7 +72,7 @@ int main()
 		hr = property_store->GetValue(PKEY_Device_FriendlyName, &prop_variant);
 
 		std::wcout << prop_variant.pwszVal << std::endl;
-		
+
 	}
 
 	// default device
@@ -64,8 +89,14 @@ int main()
 		reinterpret_cast<void**>(&audio_client)
 	);
 
+
 	UINT32 size;
-	
+	WAVEFORMATEX* mix;
+	audio_client->GetMixFormat(&mix);
+
+	auto fullmix = reinterpret_cast<WAVEFORMATEXTENSIBLE*>(mix);
+
+	auto selfmix = reinterpret_cast<WAVEFORMATEXTENSIBLE*>(format(96000, 32));
 
 	WAVEFORMATEX wave_format
 	{
@@ -73,7 +104,7 @@ int main()
 		2,
 		44100,
 		176400,
-		4,
+		16 * 2 / 8,
 		16,
 		0
 	};
@@ -83,14 +114,18 @@ int main()
 		0,
 		1000000, // 100 ms
 		0,
+		//format(48000, 16),
 		&wave_format,
 		nullptr
 	);
-	//if (FAILED(hr)) exit(hr);
+	if (FAILED(hr)) exit(hr);
 	hr = audio_client->GetBufferSize(&size);
-	
-	
+
+
+
 	std::println("{}", AUDCLNT_E_UNSUPPORTED_FORMAT);
-	
+	std::println("{}", size);
+
 	return 0;
 }
+

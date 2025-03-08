@@ -9,17 +9,19 @@ public class Playback
     private readonly WasapiOut _wasapi = new WasapiOut(AudioClientShareMode.Exclusive, 100);
     private readonly BufferedWaveProvider _provider;
 
-    public Playback(PCMParameters info)
+    public Playback(IntPtr info)
     {
-        if (info.lossless == 0)
-        {
-            _provider = new BufferedWaveProvider(WaveFormat.CreateIeeeFloatWaveFormat(info.sample_rate, 2));
-        }
-        else
-        {
-            _provider = new BufferedWaveProvider(new WaveFormat(info.sample_rate, info.bits_per_sample, 2));
+        //if (info.lossless == 0)
+        //{
+        //    _provider = new BufferedWaveProvider(WaveFormat.CreateIeeeFloatWaveFormat(info.sample_rate, 2));
+        //}
+        //else
+        //{
+        //    _provider = new BufferedWaveProvider(new WaveFormat(info.sample_rate, info.bits_per_sample, 2));
             
-        }
+        //}
+
+        _provider = new BufferedWaveProvider(WaveFormat.MarshalFromPtr(info));
         _wasapi.Init(_provider);
     }
 

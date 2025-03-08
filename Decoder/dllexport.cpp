@@ -6,7 +6,7 @@ Decoder* init(const char* url) {
 	return new Decoder(url);
 }
 
-PCMParameters setup(Decoder* decoder) {
+WAVEFORMATEX* setup(Decoder* decoder) {
 	return decoder->Setup();
 }
 

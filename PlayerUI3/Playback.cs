@@ -10,9 +10,9 @@ namespace PlayerUI3;
 
 public class Playback
 {
-    private WasapiOut _wasapi = new WasapiOut();
+    private WasapiOut _wasapi = new WasapiOut(AudioClientShareMode.Exclusive, false, 5);
     private readonly BufferedWaveProvider _provider;
-    //private readonly Func<Task> _playbackThread;
+    public bool PlayState = false;
     private readonly Decoder _decoder;
 
 
@@ -30,44 +30,45 @@ public class Playback
         }
         _wasapi.Init(_provider);
 
-        
+
     }
 
-    public async void StartPlayTask()
+    public void StartPlayTask()
     {
-        await Task.Run(() =>
+        Task.Run(() =>
         {
-            while (true)
-            {
-                var pcm = _decoder.Decode();
-                if (pcm.size == 0) break;
-                var bytes = new byte[pcm.size];
-                Marshal.Copy(pcm.data, bytes, 0, pcm.size);
+             while (true)
+             {
+                 var pcm = _decoder.Decode();
+                 if (pcm.size == 0) break;
+                 var bytes = new byte[pcm.size];
+                 Marshal.Copy(pcm.data, bytes, 0, pcm.size);
 
-                while (pcm.size + _provider.BufferedBytes > _provider.BufferLength)
-                {
-                    Thread.Sleep(1000);
-                }
+                 while (pcm.size + _provider.BufferedBytes > _provider.BufferLength || PlayState == false)
+                 {
+                     Thread.Sleep(1000);
+                 }
 
-                _provider.AddSamples(bytes, 0, pcm.size);
-            }
+                 _provider.AddSamples(bytes, 0, pcm.size);
+             }
 
-            while (_provider.BufferedBytes != 0)
-            {
-                Thread.Sleep(1000);
-            }
+             while (_provider.BufferedBytes != 0)
+             {
+                 Thread.Sleep(1000);
+             }
         });
     }
 
     public void Play()
     {
         _wasapi.Play();
-        
+        PlayState = true;
     }
 
     public void Pause()
     {
         _wasapi.Pause();
+        PlayState = false;
         //_wasapi.Dispose();
         //_wasapi = new WasapiOut(AudioClientShareMode.Exclusive, 100);
         //_wasapi.Init(_provider);
